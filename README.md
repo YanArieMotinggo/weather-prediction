@@ -34,4 +34,4 @@ streamlit run weather_app.py
 ```
 ### Check the App Here
 
-
+https://yanariemotinggo-weather-prediction-main-kpcgvc.streamlit.app/
