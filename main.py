@@ -7,7 +7,6 @@ from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
 
-# Page configuration MUST be first
 st.set_page_config(
     page_title="Weather-Predict",
     page_icon="🌤️",
@@ -15,7 +14,6 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS styling (moved after set_page_config)
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
@@ -69,16 +67,6 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# Rest of the imports
-import pandas as pd
-import numpy as np
-import seaborn as sns
-import matplotlib.pyplot as plt
-from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
-
-# Initialize session state
 if 'model' not in st.session_state:
     st.session_state.model = None
 if 'features' not in st.session_state:
@@ -88,7 +76,6 @@ if 'y_test' not in st.session_state:
 if 'y_pred' not in st.session_state:
     st.session_state.y_pred = None
 
-# Sidebar with animated elements
 with st.sidebar:
     st.markdown("# 🌦️ WeatherWise AI")
     st.markdown("### Smart Weather Prediction System")
@@ -102,11 +89,9 @@ with st.sidebar:
     st.markdown("🛠️ **Settings:**")
     uploaded_file = st.file_uploader("Upload Dataset", type="csv", key="file_upload")
 
-# Main content area
 if uploaded_file is not None:
     df = pd.read_csv(uploaded_file)
     
-    # Data Cleaning Section with animated progress
     with st.expander("🧹 Data Preparation", expanded=True):
         with st.spinner('Cleaning and preparing data...'):
             # Convert timestamps
@@ -124,7 +109,6 @@ if uploaded_file is not None:
             for col in cat_cols:
                 df[col] = df[col].astype('category').cat.codes
             
-            # Display cleaning results in cards
             col1, col2 = st.columns(2)
             with col1:
                 st.markdown("<div class='card'>"
@@ -145,7 +129,6 @@ if uploaded_file is not None:
             st.markdown("#### Sample Data Preview")
             st.dataframe(df.head().style.background_gradient(cmap='Blues'), use_container_width=True)
 
-    # EDA Section with interactive visualizations
     with st.expander("📈 Data Exploration", expanded=True):
         st.markdown("## 📊 Exploratory Data Analysis")
         
@@ -169,7 +152,7 @@ if uploaded_file is not None:
                         f"<div class='metric'>{df['rh'].mean():.1f}%</div>"
                         "</div>", unsafe_allow_html=True)
         
-        # Interactive chart selector
+
         chart_type = st.selectbox("Choose Visualization", 
                                 ["Temperature Distribution", "Humidity vs Temperature", "Wind Speed Analysis"])
         
@@ -190,11 +173,11 @@ if uploaded_file is not None:
         plt.tight_layout()
         st.pyplot(fig)
 
-    # Modeling Section with modern cards
+
     with st.expander("🤖 AI Modeling", expanded=True):
         st.markdown("## 🧠 Machine Learning Engine")
         
-        # Model configuration cards
+
         col1, col2 = st.columns(2)
         with col1:
             with st.markdown("<div class='card'>"
@@ -229,13 +212,11 @@ if uploaded_file is not None:
                 st.session_state.model = model
                 y_pred = model.predict(X_test)
                 
-                # Store test results in session state
                 st.session_state.y_test = y_test
                 st.session_state.y_pred = y_pred
                 
                 st.success("Model trained successfully! ✅")
                 
-                # Performance visualization
                 col1, col2 = st.columns(2)
                 with col1:
                     fig, ax = plt.subplots()
@@ -252,11 +233,9 @@ if uploaded_file is not None:
                         use_container_width=True
                     )
 
-    # Prediction Section with animated elements
     with st.expander("🔮 Live Predictions", expanded=True):
         st.markdown("## 🌤️ Real-time Weather Prediction")
         
-        # Prediction input cards
         with st.markdown("<div class='card'>"
                         "<h3>⚡ Prediction Parameters</h3>"
                         "</div>", unsafe_allow_html=True):
@@ -290,7 +269,6 @@ if uploaded_file is not None:
                     
                     prediction = st.session_state.model.predict(input_data)[0]
                     
-                    # Animated result display
                     st.markdown(f"""
                     <div class='card' style='animation: fadeIn 0.5s ease;'>
                         <h3>🎯 Prediction Result</h3>
@@ -307,7 +285,6 @@ if uploaded_file is not None:
                     """, unsafe_allow_html=True)
 
 else:
-    # Welcome screen with animations
     col1, col2 = st.columns(2)
     with col1:
         st.markdown("# Welcome to WeatherWise AI 🌦️")
